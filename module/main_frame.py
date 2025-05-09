@@ -10,8 +10,8 @@ from config.settings import (
     WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT,
     MENU_WIDTH, TOOLBAR_HEIGHT, PRIMARY_COLOR, BACKGROUND_COLOR
 )
-from views.menu_panel import MenuPanel
-from views.content_panel import ContentPanel
+from module.menu_panel import MenuPanel
+from module.content_panel import ContentPanel
 
 class MainFrame(wx.Frame):
     """Main application frame class"""

@@ -7,7 +7,7 @@ autoWeCom - Main application entry point
 
 import wx
 from config.settings import APP_NAME, APP_VERSION, WINDOW_WIDTH, WINDOW_HEIGHT
-from views.main_frame import MainFrame
+from module.main_frame import MainFrame
 
 def main():
     """Main application entry point"""

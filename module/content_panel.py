@@ -9,8 +9,8 @@ import wx
 from config.settings import BACKGROUND_COLOR, PRIMARY_COLOR
 
 # Import views from MVVM structure
-from views.dashboard.views.dashboard_view import DashboardView
-from views.automation.views.automation_view import AutomationView
+from module.dashboard.views.dashboard_view import DashboardView
+from module.automation.views.automation_view import AutomationView
 
 class ContentPanel(wx.Panel):
     """Right side content panel"""

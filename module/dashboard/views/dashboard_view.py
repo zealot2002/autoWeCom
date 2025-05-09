@@ -7,7 +7,7 @@ View for the Dashboard page
 
 import wx
 from config.settings import BACKGROUND_COLOR, PRIMARY_COLOR
-from views.dashboard.viewmodels.dashboard_viewmodel import DashboardViewModel
+from module.dashboard.viewmodels.dashboard_viewmodel import DashboardViewModel
 
 class DashboardView(wx.Panel):
     """View class for the Dashboard page"""

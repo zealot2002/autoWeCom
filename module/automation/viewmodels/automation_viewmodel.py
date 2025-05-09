@@ -5,7 +5,7 @@
 ViewModel for the Automation page
 """
 
-from views.automation.models.automation_model import AutomationModel
+from module.automation.models.automation_model import AutomationModel
 
 class AutomationViewModel:
     """ViewModel for the Automation page"""

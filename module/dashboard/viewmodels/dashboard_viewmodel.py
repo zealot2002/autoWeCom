@@ -6,7 +6,7 @@ ViewModel for the Dashboard page
 """
 
 import wx
-from views.dashboard.models.message_model import MessageModel
+from module.dashboard.models.message_model import MessageModel
 
 class DashboardViewModel:
     """ViewModel for the Dashboard page"""

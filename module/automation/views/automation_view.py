@@ -8,7 +8,7 @@ View for the Automation page
 import wx
 import wx.grid
 from config.settings import BACKGROUND_COLOR, PRIMARY_COLOR
-from views.automation.viewmodels.automation_viewmodel import AutomationViewModel
+from module.automation.viewmodels.automation_viewmodel import AutomationViewModel
 
 class AutomationView(wx.Panel):
     """View class for the Automation page"""
