@@ -6,6 +6,7 @@ View for the Dashboard page
 """
 
 import wx
+import threading
 from config.settings import BACKGROUND_COLOR, PRIMARY_COLOR
 from module.dashboard.viewmodels.dashboard_viewmodel import DashboardViewModel
 
@@ -50,6 +51,8 @@ class DashboardView(wx.Panel):
         form_sizer.Add(target_label, pos=(0, 0), flag=wx.ALL | wx.ALIGN_CENTER_VERTICAL, border=10)
         
         self.target_input = wx.TextCtrl(form_panel, size=(300, -1))
+        # 设置默认联系人为"文件传输助手"
+        self.target_input.SetValue("文件传输助手")
         form_sizer.Add(self.target_input, pos=(0, 1), span=(1, 2), flag=wx.EXPAND | wx.ALL, border=10)
         
         # Add content input
@@ -64,6 +67,10 @@ class DashboardView(wx.Panel):
         self.send_button.SetBackgroundColour(PRIMARY_COLOR)
         self.send_button.SetForegroundColour(wx.WHITE)
         form_sizer.Add(self.send_button, pos=(2, 2), flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
+        
+        # 添加状态文本
+        self.status_text = wx.StaticText(form_panel, label="Ready to send message")
+        form_sizer.Add(self.status_text, pos=(2, 0), span=(1, 2), flag=wx.ALL | wx.ALIGN_CENTER_VERTICAL, border=10)
         
         # Make columns expandable
         form_sizer.AddGrowableCol(1)
@@ -83,17 +90,51 @@ class DashboardView(wx.Panel):
     
     def _on_send(self, event):
         """Handle send button click"""
-        # Update the ViewModel with the current values
-        self.viewmodel.set_target(self.target_input.GetValue())
-        self.viewmodel.set_content(self.content_input.GetValue())
+        # 禁用发送按钮，防止重复点击
+        self.send_button.Disable()
+        self.status_text.SetLabel("Sending message...")
         
-        # Send the message through the ViewModel
+        # 更新状态栏
+        frame = self.GetTopLevelParent()
+        frame.SetStatusText("Sending message, please wait...")
+        
+        # 获取输入值
+        target = self.target_input.GetValue()
+        content = self.content_input.GetValue()
+        
+        # 更新 ViewModel
+        self.viewmodel.set_target(target)
+        self.viewmodel.set_content(content)
+        
+        # 创建一个线程来发送消息，避免界面冻结
+        thread = threading.Thread(target=self._send_message_thread)
+        thread.daemon = True
+        thread.start()
+    
+    def _send_message_thread(self):
+        """在单独的线程中发送消息"""
+        # 发送消息
         success, message = self.viewmodel.send_message()
         
+        # 使用 CallAfter 更新 UI，确保在主线程中更新
+        wx.CallAfter(self._update_ui_after_send, success, message)
+    
+    def _update_ui_after_send(self, success, message):
+        """更新发送后的 UI 状态"""
+        # 重新启用发送按钮
+        self.send_button.Enable()
+        
+        # 更新状态文本
         if success:
+            self.status_text.SetLabel("Message sent successfully")
             wx.MessageBox(message, "Success", wx.OK | wx.ICON_INFORMATION)
-            # Update status bar
-            frame = self.GetTopLevelParent()
-            frame.SetStatusText(message)
+            
+            # 清空内容输入框，为下一条消息做准备
+            self.content_input.SetValue("")
         else:
-            wx.MessageBox(message, "Error", wx.OK | wx.ICON_ERROR) 
+            self.status_text.SetLabel("Failed to send message")
+            wx.MessageBox(message, "Error", wx.OK | wx.ICON_ERROR)
+        
+        # 更新状态栏
+        frame = self.GetTopLevelParent()
+        frame.SetStatusText(message) 
