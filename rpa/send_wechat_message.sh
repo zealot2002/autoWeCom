@@ -45,6 +45,6 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "脚本目录: $SCRIPT_DIR"
 
 # 运行Robot Framework脚本，并传递变量
-python -m robot --variable CONTACT:"$CONTACT" --variable MESSAGE:"$MESSAGE" "$SCRIPT_DIR/wechat_applescript_workflow.robot"
+/Users/zzy/miniconda3/bin/python -m robot --variable CONTACT:"$CONTACT" --variable MESSAGE:"$MESSAGE" "$SCRIPT_DIR/wechat_applescript_workflow.robot"
 
 echo "消息已发送完成!" 
