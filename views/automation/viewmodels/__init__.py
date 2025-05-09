@@ -1,0 +1,3 @@
+"""
+ViewModels for Automation page
+""" 
