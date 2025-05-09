@@ -50,10 +50,10 @@ class MenuPanel(wx.Panel):
         menu_items = [
             ("Dashboard", 0),
             ("Automation", 1),
-            ("Contacts", 2),
-            ("Messages", 3),
-            ("Reports", 4),
-            ("Settings", 5)
+            # ("Contacts", 2),
+            # ("Messages", 3),
+            # ("Reports", 4),
+            # ("Settings", 5)
         ]
         
         for idx, (name, item_id) in enumerate(menu_items):
