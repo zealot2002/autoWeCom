@@ -5,6 +5,7 @@
 ViewModel for the Automation page
 """
 
+from config.settings import PLATFORM
 from module.automation.models.automation_model import AutomationModel
 
 class AutomationViewModel:
@@ -18,14 +19,38 @@ class AutomationViewModel:
             "name": "Daily Report",
             "description": "Send daily report to team leads",
             "schedule": "Daily at 17:00",
-            "status": "Inactive"
+            "status": "Inactive",
+            "type": "send_message",
+            "contact": "Team Leads",
+            "message": "Daily report is ready for review"
         })
         self.model.add_task({
             "name": "Welcome Message",
             "description": "Send welcome message to new members",
             "schedule": "On trigger",
-            "status": "Active"
+            "status": "Active",
+            "type": "send_message",
+            "contact": "文件传输助手",
+            "message": "Welcome to the team! Please let me know if you need any assistance."
         })
+        
+        # 添加平台特定的示例任务
+        if PLATFORM == "windows":
+            self.model.add_task({
+                "name": "Windows特定任务",
+                "description": "此任务仅在Windows平台下显示",
+                "schedule": "Manual",
+                "status": "Inactive",
+                "type": "windows_task"
+            })
+        elif PLATFORM == "mac":
+            self.model.add_task({
+                "name": "macOS特定任务",
+                "description": "此任务仅在macOS平台下显示",
+                "schedule": "Manual",
+                "status": "Inactive",
+                "type": "mac_task"
+            })
     
     def get_tasks(self):
         """Get all automation tasks"""
